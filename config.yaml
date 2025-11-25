@@ -1,9 +1,9 @@
 DataParam:
-  Training_ParamPath: /path/to/train_params.npy
-  Training_DataPath: /path/to/train_data.npy
-  Trial_ParamPath: /path/to/trial_params.npy
-  Trial_DataPath: /path/trial_data.npy
-  xs_Path: /path/to/x-axis.npy
+  Training_ParamPath: /path/to/train_params.npy # N_train x N_params array
+  Training_DataPath: /path/to/train_data.npy # N_train x N_outputs array
+  Trial_ParamPath: /path/to/trial_params.npy # N_trial x N_params array
+  Trial_DataPath: /path/trial_data.npy # N_trial x N_outputs array
+  xs_Path: /path/to/x-axis.npy # N_outputs array
   Do_Log: False # Whether to take the logarithm of the data
 
 ANNParam:
