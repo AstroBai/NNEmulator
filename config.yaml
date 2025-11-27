@@ -27,4 +27,4 @@ ANNParam:
   Plot_Loss: True # Whether to plot the loss curve
 
 OutputParam:
-  Model_SavePath: /path/to/your/model # Path to save trained models, you can also see the loss curve here if Plot_Loss is True
+  Model_SavePath: /directory/to/your/model # Path to save trained models, you can also see the loss curve here if Plot_Loss is True

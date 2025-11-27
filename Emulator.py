@@ -9,7 +9,6 @@ from sklearn.decomposition import PCA
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import joblib
-from tqdm import tqdm
 from scipy.interpolate import CubicSpline
 
 class ANN_Emu(nn.Module):
@@ -59,7 +58,8 @@ class ANN_Emu(nn.Module):
         # === PCA for output dimensionality reduction ===
         self.use_pca = ann_param['Use_PCA']
         self.n_pca_components = ann_param['N_PCA_Components']
-        if self.use_pca:
+        pca_path = os.path.join(config['OutputParam']['Model_SavePath'], 'pca.pkl')
+        if self.use_pca and not os.path.exists(pca_path):
             self.pca = PCA(n_components=self.n_pca_components)
             Train_Y_np = Train_Y.numpy()
             self.pca.fit(Train_Y_np)
@@ -73,9 +73,17 @@ class ANN_Emu(nn.Module):
             # print coefficients for first 5 training samples
             print("PCA coefficients for first 5 training samples:", Train_Y[:5,:])
             # save PCA object
-            pca_path = os.path.join(config['OutputParam']['Model_SavePath'], 'pca.pkl')
             joblib.dump(self.pca, pca_path)
             print(f"PCA object saved to {pca_path}")
+        elif self.use_pca and os.path.exists(pca_path):
+            self.pca = joblib.load(pca_path)
+            Train_Y_np = Train_Y.numpy()
+            Train_Y_pca = self.pca.transform(Train_Y_np)
+            Trial_Y_pca = self.pca.transform(Trial_Y.numpy())
+            Train_Y = torch.tensor(Train_Y_pca, dtype=torch.float32)
+            Trial_Y = torch.tensor(Trial_Y_pca, dtype=torch.float32)
+            output_size = self.n_pca_components
+            print(f"PCA object loaded from {pca_path}")
         else:
             output_size = Train_Y.shape[1]
 
