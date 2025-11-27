@@ -191,7 +191,7 @@ Available options:
 
 ```yaml
 OutputParam:
-  Model_SavePath: //directory/to/your/model
+  Model_SavePath: /directory/to/your/model
 ```
 
 #### Model_SavePath
